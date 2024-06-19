@@ -18,7 +18,6 @@ function Selector() {
       const data = response.data;
 
       setCurrencies(data);
-      console.log(currencies);
     } catch (error) {
       console.error("Hubo un error al hacer la solicitud:", error);
     }
@@ -30,7 +29,6 @@ function Selector() {
         `https://api.frankfurter.app/latest?amount=${amount}&from=${primaryCurrency}&to=${secondaryCurrency}`
       );
       const data = response.data;
-
       setConversion(data.rates[secondaryCurrency]);
     } catch (error) {
       console.error("Hubo un error al hacer la solicitud:", error);
