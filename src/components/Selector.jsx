@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function Selector() {
+function Selector({
+  primaryCurrency,
+  setPrimaryCurrency,
+  secondaryCurrency,
+  setSecondaryCurrency,
+}) {
   const [currencies, setCurrencies] = useState([]);
-  const [primaryCurrency, setPrimaryCurrency] = useState("EUR");
-  const [secondaryCurrency, setSecondaryCurrency] = useState("USD");
+  /*  const [primaryCurrency, setPrimaryCurrency] = useState("EUR");
+  const [secondaryCurrency, setSecondaryCurrency] = useState("USD"); */
 
   const [staticValue, setStaticValue] = useState();
   const [conversion, setConversion] = useState([]);
@@ -43,7 +48,6 @@ function Selector() {
       const data = response.data;
 
       setStaticValue(data.rates[secondaryCurrency]);
-      console.log(staticValue);
     } catch (error) {
       console.error("Hubo un error al hacer la solicitud:", error);
     }

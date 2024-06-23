@@ -25,10 +25,11 @@ ChartJS.register(
   Filler
 );
 
-function Graph() {
+function Graph({ primaryCurrency, secondaryCurrency }) {
   const [fechas, setFechas] = useState({});
   const [valor, setValor] = useState([]);
   const [dias, setDias] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   var midata = {
     labels: dias,
@@ -60,16 +61,17 @@ function Graph() {
     },
   };
 
-  const fetchDataCharts = async (response) => {
+  const fetchDataCharts = async () => {
     try {
       const response = await axios.get(
-        "https://api.frankfurter.app/1999-01-04..?from=EUR&to=USD"
+        `https://api.frankfurter.app/1999-01-04..?from=${primaryCurrency}&to=${secondaryCurrency}`
       );
       const data = response.data.rates;
       setFechas(data);
     } catch (error) {
       console.log("Hubo un error al hacer la solicitud:", error);
     }
+    setLoading(false);
   };
 
   const generateChartData = () => {
@@ -78,7 +80,7 @@ function Graph() {
     // Rellena el array 'data' con los valores de 'fechas'
     Object.keys(fechas).forEach((key) => {
       //Crea un indice con el valor de la fecha aaaa-mm-dd y le asigna el valor del USD correspondiente a esa fecha
-      data[key] = fechas[key].USD;
+      data[key] = fechas[key][secondaryCurrency];
     });
 
     // una vez obtenido el array 'data' accede solo a los valores
@@ -89,12 +91,19 @@ function Graph() {
 
   useEffect(() => {
     fetchDataCharts();
+  }, [primaryCurrency, secondaryCurrency]);
+
+  useEffect(() => {
     generateChartData();
-  }, []);
+  }, [fechas]);
 
   return (
     <>
-      <Line data={midata} options={misoptions} />
+      {loading ? (
+        <h1>Cargando...</h1>
+      ) : (
+        <Line data={midata} options={misoptions} />
+      )}
     </>
   );
 }
