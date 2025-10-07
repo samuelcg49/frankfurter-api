@@ -8,9 +8,6 @@ function Selector({
   setSecondaryCurrency,
 }) {
   const [currencies, setCurrencies] = useState([]);
-  /*  const [primaryCurrency, setPrimaryCurrency] = useState("EUR");
-  const [secondaryCurrency, setSecondaryCurrency] = useState("USD"); */
-
   const [staticValue, setStaticValue] = useState();
   const [conversion, setConversion] = useState([]);
   const [amount, setAmount] = useState(1);
